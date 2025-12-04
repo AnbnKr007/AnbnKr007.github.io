@@ -1,92 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kumar Anirban</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
-    }
-    header {
-      padding: 60px 20px;
-      text-align: center;
-      background: #161b22;
-    }
-    h1 {
-      margin: 0;
-      font-size: 3rem;
-    }
-    nav {
-      margin-top: 20px;
-    }
-    nav a {
-      margin: 0 15px;
-      color: #58a6ff;
-      text-decoration: none;
-      font-size: 1.1rem;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .section {
-      max-width: 900px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
-    .card {
-      background: #161b22;
-      padding: 25px;
-      margin: 20px 0;
-      border-radius: 12px;
-      border: 1px solid #30363d;
-    }
-    footer {
-      text-align: center;
-      padding: 30px;
-      margin-top: 40px;
-      background: #161b22;
-      color: #8b949e;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        dark: '#0f172a',
+                        card: '#1F2937',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a; /* Slate 900 */
+            color: #f3f4f6; /* Gray 100 */
+        }
+        /* Page Transition Animation */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-btn.active {
+            color: #3B82F6;
+            font-weight: 700;
+        }
+        .nav-btn.active::after {
+            width: 100%;
+        }
+        .nav-btn {
+            position: relative;
+        }
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #3B82F6;
+            transition: width 0.3s ease;
+        }
+        .nav-btn:hover::after {
+            width: 100%;
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <h1>Kumar Anirban</h1>
-    <p>Fresher @ IITBHU, Varanasi</p>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+<body class="antialiased min-h-screen flex flex-col font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-gray-900 border-b border-gray-800 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center cursor-pointer" onclick="showPage('home')">
+                    <span class="font-bold text-xl text-primary">MyPortfolio</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <button onclick="showPage('home')" id="nav-home" class="nav-btn active hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</button>
+                        <button onclick="showPage('academics')" id="nav-academics" class="nav-btn hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Academics</button>
+                        <button onclick="showPage('projects')" id="nav-projects" class="nav-btn hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Projects</button>
+                        <button onclick="showPage('misc')" id="nav-misc" class="nav-btn hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Misc</button>
+                        <!-- Contact is now a scroll action, not a page switch -->
+                        <button onclick="scrollToContact()" class="nav-btn hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</button>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-gray-800 border-t border-gray-700" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="showPage('home')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">Home</button>
+                <button onclick="showPage('academics')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">Academics</button>
+                <button onclick="showPage('projects')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">Projects</button>
+                <button onclick="showPage('misc')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">Misc</button>
+                <button onclick="scrollToContact()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">Contact</button>
+            </div>
+        </div>
     </nav>
-  </header>
 
-  <div class="section" id="about">
-    <h2>About Me</h2>
-    <div class="card">
-      <p>Welcome to my personal website. More details coming soon.</p>
-    </div>
-  </div>
+    <!-- Main Content Container -->
+    <main class="flex-grow pt-16 relative">
+        
+        <!-- PAGE: HOME -->
+        <div id="home" class="page-section fade-in">
+            <section class="min-h-[85vh] flex items-center justify-center relative overflow-hidden">
+                <!-- Background decoration -->
+                <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+                    <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-primary opacity-10 rounded-full blur-3xl animate-pulse"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary opacity-10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+                </div>
 
-  <div class="section" id="projects">
-    <h2>Projects</h2>
-    <div class="card">
-      <p>Coming soon..</p>
-    </div>
-  </div>
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    <div class="mb-8 relative inline-block">
+                        <!-- Profile Image -->
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6SMAzEicM9tGDeW8VYBauOk0jvIGQ3r7Ydg&s0" 
+                             alt="Profile" 
+                             class="w-40 h-40 rounded-full border-4 border-primary object-cover mx-auto shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="absolute bottom-2 right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-gray-900" title="Available for work"></div>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+                        Hello, I'm Kumar Anirban
+                    </h1>
+                    <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                        Fresher @ IITBHU, Varanasi. Actively exploring new technology and working on my coding skills.
+                    </p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="showPage('projects')" class="bg-primary hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:-translate-y-1 shadow-lg shadow-blue-500/30">
+                            View Projects
+                        </button>
+                        <button onclick="scrollToContact()" class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-full border border-gray-700 transition-all">
+                            Contact Me
+                        </button>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </section>
+        </div>
 
-  <div class="section" id="contact">
-    <h2>Contact</h2>
-    <div class="card">
-      <p>Email: kumar.anirban.eee25@itbhu.ac.in</p>
-    </div>
-  </div>
+        <!-- PAGE: ACADEMICS -->
+        <div id="academics" class="page-section hidden fade-in">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="mb-12 border-b border-gray-800 pb-4">
+                    <h2 class="text-3xl font-bold text-white">Academics</h2>
+                    <p class="text-gray-400 mt-2">My educational background and achievements.</p>
+                </div>
 
-  <footer>
-    © 2025 Anirban Kumar
-  </footer>
+                <div class="space-y-8">
+                    <!-- University -->
+                    <div class="bg-card rounded-xl p-8 border-l-4 border-primary shadow-lg hover:bg-gray-800 transition-colors">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">Bachelor of Technology</h3>
+                                <p class="text-blue-400 font-medium">Electrical Engineering</p>
+                            </div>
+                            <span class="mt-2 md:mt-0 px-4 py-1 bg-gray-700 rounded-full text-sm text-gray-300">2025-2029</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            IITBHU, Varanasi
+                        </p>
+                        <ul class="list-disc list-inside text-gray-400 space-y-2">
+                            <li>Focus on Data Structures, Algorithms, and Web Development.</li>
+                        </ul>
+                    </div>
+
+                    <!-- High School -->
+                    <div class="bg-card rounded-xl p-8 border-l-4 border-secondary shadow-lg hover:bg-gray-800 transition-colors">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Higher Secondary Education</h3>
+                                <p class="text-green-400 font-medium">Science Stream (PCM)</p>
+                            </div>
+                            <span class="mt-2 md:mt-0 px-4 py-1 bg-gray-700 rounded-full text-sm text-gray-300">2023-2025</span>
+                        </div>
+                        <p class="text-gray-300 mb-2">
+                            DAV Public School, Bistupur, Jamshedpur
+                        </p>
+                        <p class="text-gray-400">
+                            3rd topper of school, got 96% on Intermediate (Class 12) examination
+                        </p>
+                    </div>
+                  <div class="bg-card rounded-xl p-8 border-l-4 border-secondary shadow-lg hover:bg-gray-800 transition-colors">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Secondary Education</h3>
+                            </div>
+                            <span class="mt-2 md:mt-0 px-4 py-1 bg-gray-700 rounded-full text-sm text-gray-300">2023-2025</span>
+                        </div>
+                        <p class="text-gray-300 mb-2">
+                            D.B.M.S. English School, Jamshedpur
+                        </p>
+                        <p class="text-gray-400">
+                            98% on Matriculation (Class 10) examination
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: PROJECTS -->
+        <div id="projects" class="page-section hidden fade-in">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="mb-12 border-b border-gray-800 pb-4">
+                    <h2 class="text-3xl font-bold text-white">Projects</h2>
+                    <p class="text-gray-400 mt-2">My learning journey so far.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="bg-card rounded-xl overflow-hidden shadow-lg border border-gray-800 group hover:border-primary transition-all duration-300">
+                        <div class="h-48 overflow-hidden bg-gray-800 relative">
+                            <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
+                                 alt="Project 1" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="text-white font-bold border-2 border-white px-4 py-2 rounded-full">View Code</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-white">Project 1</h3>
+                            <p class="text-gray-400 mb-4 text-sm leading-relaxed">
+                                This is a general description for my first project. As I continue to learn and build, this section will be updated with more complex integrations, real-world applications, and innovative solutions. Stay tuned!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder -->
+                    <div class="border-2 border-dashed border-gray-700 rounded-xl flex flex-col items-center justify-center p-8 text-gray-500 min-h-[300px]">
+                        <i class="fas fa-code text-4xl mb-4 opacity-50"></i>
+                        <p class="font-medium">Work in Progress</p>
+                        <p class="text-sm mt-2">More projects coming soon...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: MISC -->
+        <div id="misc" class="page-section hidden fade-in">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="mb-12 border-b border-gray-800 pb-4">
+                    <h2 class="text-3xl font-bold text-white">Music</h2>
+                    <p class="text-gray-400 mt-2">Collection of songs, I stream from dusk till dawn.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                    <!-- Songs Column -->
+                    <div class="bg-card rounded-2xl p-6 border border-gray-800 h-full">
+                        
+                        <div class="text-center py-6">
+                            <div class="w-20 h-20 mx-auto bg-gray-800 rounded-full flex items-center justify-center mb-4 animate-spin-slow shadow-inner">
+                                <i class="fas fa-compact-disc text-3xl text-gray-600"></i>
+                            </div>
+                            <h4 class="text-lg font-semibold mb-2 text-white">Hindi Vibe</h4>
+                            <p class="text-gray-400 text-sm mb-6">Jab dil desi ho❤️</p>
+                            
+                            <!-- SPOTIFY LINK -->
+                            <a href="https://open.spotify.com/playlist/5p0f8qh53g0bmjocq6ye2g?si=B4GoUjjxSSqLBk_SUkq5Rg" target="_blank" 
+                               class="inline-flex items-center gap-2 bg-[#1DB954] hover:bg-[#1ed760] text-black font-bold py-3 px-6 rounded-full transition-transform hover:scale-105 shadow-lg shadow-green-500/20">
+                                <i class="fab fa-spotify text-xl"></i>
+                                Open Spotify
+                            </a>
+                            <br>
+                            <br>
+                            <h4 class="text-lg font-semibold mb-2 text-white">English Mood</h4>
+                            <p class="text-gray-400 text-sm mb-6">When mind wants a western touch💕</p>
+                            
+                            <!-- SPOTIFY LINK -->
+                            <a href="https://open.spotify.com/playlist/2li4CYn3ErrHV3YrIQJ95R?si=HQdaBmBMTQyLKc0CQnSMfw" target="_blank" 
+                               class="inline-flex items-center gap-2 bg-[#1DB954] hover:bg-[#1ed760] text-black font-bold py-3 px-6 rounded-full transition-transform hover:scale-105 shadow-lg shadow-green-500/20">
+                                <i class="fab fa-spotify text-xl"></i>
+                                Open Spotify
+                            </a>
+                        </div>
+                        
+                            
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- COMMON FOOTER: CONTACT SECTION -->
+    <footer id="contact-footer" class="bg-gray-900 border-t border-gray-800 text-gray-300 py-16">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-6 text-white">Get In Touch</h2>
+            <p class="text-gray-400 mb-10 text-lg">
+                Currently open to new ideas and collaborations. Send me a message or connect on social media!
+            </p>
+            
+            <div class="flex justify-center gap-6 mb-12">
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary text-gray-400 hover:text-white transition-all transform hover:-translate-y-2 shadow-lg">
+                    <i class="fab fa-github text-2xl"></i>
+                </a>
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-gray-800 hover:bg-blue-400 text-gray-400 hover:text-white transition-all transform hover:-translate-y-2 shadow-lg">
+                    <i class="fab fa-twitter text-2xl"></i>
+                </a>
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-gray-800 hover:bg-blue-600 text-gray-400 hover:text-white transition-all transform hover:-translate-y-2 shadow-lg">
+                    <i class="fab fa-linkedin-in text-2xl"></i>
+                </a>
+                <a href="mailto:your.email@example.com" class="w-14 h-14 flex items-center justify-center rounded-full bg-gray-800 hover:bg-red-500 text-gray-400 hover:text-white transition-all transform hover:-translate-y-2 shadow-lg">
+                    <i class="fas fa-envelope text-2xl"></i>
+                </a>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-6">
+                <p class="text-sm text-gray-600">&copy; 2025 My Portfolio. Built with Tailwind CSS, and Google Gemini.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation Logic
+        function showPage(pageId) {
+            // 1. Hide all page sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // 2. Show the specific page requested
+            const activeSection = document.getElementById(pageId);
+            if (activeSection) {
+                activeSection.classList.remove('hidden');
+            }
+
+            // 3. Update Navigation styling
+            // Remove 'active' class from all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Add 'active' class to the button corresponding to the page
+            const activeBtn = document.getElementById(`nav-${pageId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // 4. Scroll to top when switching main views
+            window.scrollTo(0, 0);
+
+            // 5. Close mobile menu if it's open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        function scrollToContact() {
+            const footer = document.getElementById('contact-footer');
+            footer.scrollIntoView({ behavior: 'smooth' });
+            
+            // Close mobile menu if it's open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Initialize: Ensure Home is active on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home'); 
+        });
+    </script>
 </body>
 </html>
