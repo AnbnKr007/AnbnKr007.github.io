@@ -1,24 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Hello World</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f3f3f3;
-            text-align: center;
-            padding-top: 100px;
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anirban Kumar</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+    }
+    header {
+      padding: 60px 20px;
+      text-align: center;
+      background: #161b22;
+    }
+    h1 {
+      margin: 0;
+      font-size: 3rem;
+    }
+    nav {
+      margin-top: 20px;
+    }
+    nav a {
+      margin: 0 15px;
+      color: #58a6ff;
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .section {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    .card {
+      background: #161b22;
+      padding: 25px;
+      margin: 20px 0;
+      border-radius: 12px;
+      border: 1px solid #30363d;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      margin-top: 40px;
+      background: #161b22;
+      color: #8b949e;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>Anirban Kumar</h1>
+    <p>Personal Website</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-    <h1>Hello World!</h1>
-    <p>Your website is live on GitHub Pages 🎉</p>
+  <div class="section" id="about">
+    <h2>About Me</h2>
+    <div class="card">
+      <p>Welcome to my personal website. More details coming soon.</p>
+    </div>
+  </div>
 
+  <div class="section" id="projects">
+    <h2>Projects</h2>
+    <div class="card">
+      <p>Project 1</p>
+    </div>
+    <div class="card">
+      <p>Project 2</p>
+    </div>
+  </div>
+
+  <div class="section" id="contact">
+    <h2>Contact</h2>
+    <div class="card">
+      <p>Email: your.email@example.com</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Anirban Kumar
+  </footer>
 </body>
 </html>
