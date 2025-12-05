@@ -74,6 +74,8 @@
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center cursor-pointer" onclick="showPage('home')">
                     <span class="font-bold text-xl text-primary">MyPortfolio</span>
+                    <!-- Time Display -->
+                    <div id="current-time" class="hidden sm:block ml-4 text-xs md:text-sm text-gray-400 font-mono border-l border-gray-700 pl-4"></div>
                 </div>
                 
                 <!-- Desktop Menu -->
@@ -286,8 +288,6 @@
                             </a>
                         </div>
                         
-                            
-                        
                     </div>
                 </div>
             </div>
@@ -326,48 +326,27 @@
     <script>
         // Page Navigation Logic
         function showPage(pageId) {
-            // 1. Hide all page sections
             const sections = document.querySelectorAll('.page-section');
-            sections.forEach(section => {
-                section.classList.add('hidden');
-            });
+            sections.forEach(section => section.classList.add('hidden'));
 
-            // 2. Show the specific page requested
             const activeSection = document.getElementById(pageId);
-            if (activeSection) {
-                activeSection.classList.remove('hidden');
-            }
+            if (activeSection) activeSection.classList.remove('hidden');
 
-            // 3. Update Navigation styling
-            // Remove 'active' class from all buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            // Add 'active' class to the button corresponding to the page
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.getElementById(`nav-${pageId}`);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
-            }
+            if (activeBtn) activeBtn.classList.add('active');
 
-            // 4. Scroll to top when switching main views
             window.scrollTo(0, 0);
 
-            // 5. Close mobile menu if it's open
             const mobileMenu = document.getElementById('mobile-menu');
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
+            if (!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
         }
 
         function scrollToContact() {
             const footer = document.getElementById('contact-footer');
             footer.scrollIntoView({ behavior: 'smooth' });
-            
-            // Close mobile menu if it's open
             const mobileMenu = document.getElementById('mobile-menu');
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
+            if (!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
         }
 
         function toggleMobileMenu() {
@@ -375,10 +354,33 @@
             menu.classList.toggle('hidden');
         }
 
-        // Initialize: Ensure Home is active on load
         document.addEventListener('DOMContentLoaded', () => {
             showPage('home'); 
         });
+
+        // ----------------- OPTIMIZED Date & Time -----------------
+        function updateTime() {
+            const now = new Date();
+            // Format time: 10:30:05 PM
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit' 
+            });
+            // Format date: Sat, Dec 6
+            const dateString = now.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            
+            // Set text (e.g., "Sat, Dec 6 | 10:30:05 PM")
+            document.getElementById('current-time').innerText = `${dateString} | ${timeString}`;
+        }
+        
+        // Update immediately, then every second
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
 </body>
 </html>
